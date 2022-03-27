@@ -7,7 +7,8 @@ let prix = document.getElementById("price");
 let titre = document.getElementById("title");
 let description = document.getElementById("description");
 let couleur = document.getElementById("colors");
-let quantitySelector = document.getElementById("quantity");
+let quantitySelector = parseInt(document.getElementById("quantity"));
+
 
 //stocker les éléments du produit dans un tableau
 let produitData = [];
@@ -39,10 +40,11 @@ const produitDisplay = async () => {
     <option value="${produitData.colors[i]}">${produitData.colors[i]}</option>`;
   }
   addBasket(produitData);
-  
+ 
 };
 
 produitDisplay();
+
 
 const addBasket = () => {
   let bouton = document.getElementById("addToCart");
@@ -59,16 +61,26 @@ const addBasket = () => {
      }); 
      console.log(fusionProduitColor);
     // on veut que si il y a rien, on rajoute des produits
+
     if(produitTableau == null){ // si ptab est null, ptab sera un tableau vide
       produitTableau = [];
       // on va pousser fusionproduitcolor, si tu a rien dans localstorage(ptab), tu m'execute ce code
       produitTableau.push(fusionProduitColor);
       console.log(produitTableau);
       // on va transformer ptab en string pour le stocker dans le localstorage, puis on lui dire tu va prendre une clé qui s'appelle produit et valeur qui sera à l'intérieur sera une string du tableau et voila comment on stocke dans le localS
-      localStorage.setItem("produit", JSON.stringify(produitTableau));
+      
+    } else{
+      const existProduct = produitTableau.filter(element => {
+        return element.id === produit && element.color === couleur;
+      })
+      if(existProduct.length > 0){
+        existProduct[0].quantity += quantitySelector;
+      }else{
+        let fusionProduitColor;
+        produitTableau.push(fusionProduitColor);
+      }
+
     }
+    localStorage.setItem("produit", JSON.stringify(produitTableau));
   });
 };
-	
-
-	
