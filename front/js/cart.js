@@ -14,11 +14,8 @@ console.log(listIds);
 const objectToSendOrder = {
     products: listIds,
     contact:{
-        firstname
+        
     }
 }
-
-
-
 
    
